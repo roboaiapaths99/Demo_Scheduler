@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Tutor Availability System</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/auth.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Tutor Availability</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard-tutor.html" class="nav-link">Tutor Dashboard</a>
+                <a href="dashboard-sales.html" class="nav-link">Sales Dashboard</a>
+                <a href="bookings.html" class="nav-link">Bookings</a>
+                <a href="notifications.html" class="nav-link">Notifications</a>
+            </div>
+            <div class="nav-auth">
+                <a href="index.html" class="btn btn-secondary">Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="auth-container">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h1>Tutor Availability System</h1>
+                <p>Create your account</p>
+            </div>
+
+            <form id="registerForm" class="auth-form">
+                <div class="form-group">
+                    <label for="name">Full Name</label>
+                    <input type="text" id="name" name="name" required>
+                    <span class="error-message" id="nameError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email Address</label>
+                    <input type="email" id="email" name="email" required>
+                    <span class="error-message" id="emailError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input type="password" id="password" name="password" required>
+                    <span class="error-message" id="passwordError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                    <span class="error-message" id="confirmPasswordError"></span>
+                </div>
+
+                <div class="form-group">
+                    <label for="role">Role</label>
+                    <select id="role" name="role" required>
+                        <option value="">Select your role</option>
+                        <option value="tutor">Tutor</option>
+                        <option value="sales">Sales Team</option>
+                        <option value="admin">Administrator</option>
+                    </select>
+                    <span class="error-message" id="roleError"></span>
+                </div>
+
+                <button type="submit" class="btn btn-primary" id="registerBtn">
+                    <span class="btn-text">Create Account</span>
+                    <span class="btn-loader" style="display: none;">Creating account...</span>
+                </button>
+            </form>
+
+            <div class="auth-footer">
+                <p>Already have an account? <a href="login.html">Sign in here</a></p>
+                <p><a href="index.html">Back to Home</a></p>
+            </div>
+
+            <div id="message" class="message" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+</body>
+</html>

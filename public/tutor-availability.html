@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Availability - Tutor</title>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .page-header {
+            margin-bottom: 30px;
+        }
+
+        .page-header h1 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 28px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 20px;
+        }
+
+        .form-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .form-card h3 {
+            margin: 0 0 20px 0;
+            color: #333;
+            font-size: 18px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            color: #333;
+            font-weight: 600;
+            font-size: 14px;
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            font-size: 14px;
+            font-family: inherit;
+            box-sizing: border-box;
+        }
+
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+        }
+
+        .btn-primary {
+            background-color: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            width: 100%;
+        }
+
+        .btn-primary:hover {
+            background-color: #764ba2;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+
+        .availability-list {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .availability-list h3 {
+            margin: 0 0 20px 0;
+            color: #333;
+            font-size: 18px;
+            border-bottom: 2px solid #667eea;
+            padding-bottom: 10px;
+        }
+
+        .availability-item {
+            padding: 15px;
+            border: 1px solid #eee;
+            border-radius: 4px;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: #f9f9f9;
+        }
+
+        .availability-item:hover {
+            background-color: #f0f0f0;
+        }
+
+        .slot-info {
+            flex: 1;
+        }
+
+        .slot-date {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+
+        .slot-time {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .slot-status {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            margin: 0 10px;
+        }
+
+        .status-available {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .status-booked {
+            background-color: #fff3e0;
+            color: #f57c00;
+        }
+
+        .btn-small {
+            background-color: #f44336;
+            color: white;
+            border: none;
+            padding: 6px 12px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.3s ease;
+        }
+
+        .btn-small:hover {
+            background-color: #da190b;
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 40px;
+            color: #667eea;
+        }
+
+        .success-message {
+            background-color: #e8f5e9;
+            color: #2e7d32;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        .error-message {
+            background-color: #ffebee;
+            color: #c62828;
+            padding: 15px;
+            border-radius: 4px;
+            margin-bottom: 15px;
+            display: none;
+        }
+
+        @media (max-width: 768px) {
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="container">
+        <div class="page-header">
+            <h1>📅 Manage Availability</h1>
+            <p style="color: #666; margin: 5px 0;">Add and manage your availability slots</p>
+        </div>
+
+        <div class="grid-2">
+            <div class="form-card">
+                <h3>Add New Slot</h3>
+                
+                <div class="success-message" id="successMsg"></div>
+                <div class="error-message" id="errorMsg"></div>
+
+                <form id="availabilityForm" onsubmit="tutorAvailability.handleAddSlot(event)">
+                    <div class="form-group">
+                        <label for="date">Date</label>
+                        <input type="date" id="date" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="startTime">Start Time</label>
+                        <input type="time" id="startTime" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="endTime">End Time</label>
+                        <input type="time" id="endTime" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="notes">Notes (Optional)</label>
+                        <textarea id="notes" rows="3" placeholder="Add any notes about this slot..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn-primary">Add Availability</button>
+                </form>
+            </div>
+
+            <div class="availability-list">
+                <h3>Your Availability Slots</h3>
+                <div id="availabilityContainer" class="loading">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/navbar-manager.js"></script>
+    <script>
+        class TutorAvailability {
+            async init() {
+                await navbarManager.init();
+                if (!navbarManager.requireRole('tutor')) return;
+                this.setMinDate();
+                await this.loadAvailability();
+            }
+
+            setMinDate() {
+                const today = new Date();
+                today.setDate(today.getDate());
+                const minDate = today.toISOString().split('T')[0];
+                document.getElementById('date').setAttribute('min', minDate);
+            }
+
+            async handleAddSlot(e) {
+                e.preventDefault();
+                
+                const date = document.getElementById('date').value;
+                const startTime = document.getElementById('startTime').value;
+                const endTime = document.getElementById('endTime').value;
+                const notes = document.getElementById('notes').value;
+
+                if (!this.validateTimes(startTime, endTime)) {
+                    this.showError('End time must be after start time');
+                    return;
+                }
+
+                try {
+                    const token = localStorage.getItem('accessToken');
+                    const response = await fetch('/api/availability', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${token}`
+                        },
+                        body: JSON.stringify({
+                            date,
+                            startTime,
+                            endTime,
+                            notes,
+                            isRecurring: false
+                        })
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.showSuccess('Availability slot added successfully');
+                        document.getElementById('availabilityForm').reset();
+                        this.setMinDate();
+                        await this.loadAvailability();
+                    } else {
+                        this.showError(result.message || 'Failed to add availability');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    this.showError('Error adding availability: ' + error.message);
+                }
+            }
+
+            validateTimes(startTime, endTime) {
+                return startTime < endTime;
+            }
+
+            async loadAvailability() {
+                try {
+                    const token = localStorage.getItem('accessToken');
+                    const response = await fetch('/api/data/tutor/my-availability', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const result = await response.json();
+                    
+                    if (result.success && result.data.length > 0) {
+                        const slots = result.data.sort((a, b) => {
+                            return new Date(b.date) - new Date(a.date);
+                        });
+                        
+                        const html = slots.map(slot => `
+                            <div class="availability-item">
+                                <div class="slot-info">
+                                    <div class="slot-date">${this.formatDate(slot.date)}</div>
+                                    <div class="slot-time">${slot.startTime} - ${slot.endTime}</div>
+                                </div>
+                                <span class="slot-status status-${slot.status}">${slot.status}</span>
+                                ${slot.status === 'available' ? `
+                                    <button class="btn-small" onclick="tutorAvailability.deleteSlot('${slot._id}')">Delete</button>
+                                ` : ''}
+                            </div>
+                        `).join('');
+                        
+                        document.getElementById('availabilityContainer').innerHTML = html;
+                    } else {
+                        document.getElementById('availabilityContainer').innerHTML = 
+                            '<div class="empty-state"><p>No availability slots yet. Add one to get started!</p></div>';
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    document.getElementById('availabilityContainer').innerHTML = 
+                        '<div class="empty-state"><p>Error loading availability</p></div>';
+                }
+            }
+
+            async deleteSlot(slotId) {
+                if (!confirm('Delete this availability slot?')) return;
+                
+                try {
+                    const token = localStorage.getItem('accessToken');
+                    const response = await fetch(`/api/availability/${slotId}`, {
+                        method: 'DELETE',
+                        headers: {
+                            'Authorization': `Bearer ${token}`
+                        }
+                    });
+
+                    const result = await response.json();
+                    
+                    if (result.success) {
+                        this.showSuccess('Slot deleted');
+                        await this.loadAvailability();
+                    } else {
+                        this.showError(result.message || 'Failed to delete');
+                    }
+                } catch (error) {
+                    console.error('Error:', error);
+                    this.showError('Error deleting slot');
+                }
+            }
+
+            formatDate(date) {
+                return new Date(date).toLocaleDateString('en-US', { 
+                    weekday: 'short', 
+                    month: 'short', 
+                    day: 'numeric', 
+                    year: 'numeric' 
+                });
+            }
+
+            showSuccess(msg) {
+                const el = document.getElementById('successMsg');
+                el.textContent = msg;
+                el.style.display = 'block';
+                setTimeout(() => el.style.display = 'none', 3000);
+            }
+
+            showError(msg) {
+                const el = document.getElementById('errorMsg');
+                el.textContent = msg;
+                el.style.display = 'block';
+                setTimeout(() => el.style.display = 'none', 4000);
+            }
+        }
+
+        const tutorAvailability = new TutorAvailability();
+        document.addEventListener('DOMContentLoaded', () => tutorAvailability.init());
+    </script>
+</body>
+</html>

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Bookings - Redirecting...</title>
+</head>
+<body>
+    <script>
+        // Redirect based on user role
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        const role = user.role;
+        
+        if (role === 'tutor') {
+            window.location.href = '/tutor-bookings.html';
+        } else if (role === 'sales') {
+            window.location.href = '/sales-bookings.html';
+        } else {
+            window.location.href = '/index.html';
+        }
+    </script>
+    Loading...
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <i class="fas fa-graduation-cap"></i>
+                <span>Tutor Availability</span>
+            </div>
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Home</a>
+                <a href="dashboard-tutor.html" class="nav-link">Tutor Dashboard</a>
+                <a href="dashboard-sales.html" class="nav-link">Sales Dashboard</a>
+                <a href="bookings.html" class="nav-link active">Bookings</a>
+                <a href="notifications.html" class="nav-link">Notifications</a>
+            </div>
+            <div class="nav-auth">
+                <a href="index.html" class="btn btn-secondary">Home</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="dashboard-container">
+        <!-- Header -->
+        <header class="dashboard-header">
+            <div class="header-content">
+                <h1>My Bookings</h1>
+                <div class="user-info">
+                    <span id="userName">Loading...</span>
+                    <button onclick="logout()" class="btn btn-secondary btn-sm">Logout</button>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="dashboard-main">
+            <!-- Statistics Section -->
+            <section class="stats-section">
+                <div class="summary-cards">
+                    <div class="summary-card">
+                        <h3>Total Bookings</h3>
+                        <span id="totalBookings" class="summary-number">0</span>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Pending</h3>
+                        <span id="pendingBookings" class="summary-number pending">0</span>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Confirmed</h3>
+                        <span id="confirmedBookings" class="summary-number confirmed">0</span>
+                    </div>
+                    <div class="summary-card">
+                        <h3>Completed</h3>
+                        <span id="completedBookings" class="summary-number completed">0</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Filters Section -->
+            <section class="filters-section">
+                <div class="card">
+                    <h2>Filter Bookings</h2>
+                    <div class="filter-controls">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="filterStartDate">From Date</label>
+                                <input type="date" id="filterStartDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="filterEndDate">To Date</label>
+                                <input type="date" id="filterEndDate">
+                            </div>
+                            <div class="form-group">
+                                <label for="filterStatus">Status</label>
+                                <select id="filterStatus">
+                                    <option value="">All Status</option>
+                                    <option value="pending">Pending</option>
+                                    <option value="confirmed">Confirmed</option>
+                                    <option value="cancelled">Cancelled</option>
+                                    <option value="completed">Completed</option>
+                                    <option value="no-show">No Show</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="filter-actions">
+                            <button onclick="bookingsManager.applyFilters()" class="btn btn-primary">Apply Filters</button>
+                            <button onclick="bookingsManager.clearFilters()" class="btn btn-outline">Clear</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Bookings List -->
+            <section class="bookings-list-section">
+                <div class="card">
+                    <h2>Bookings</h2>
+                    <div id="bookingsList" class="bookings-list">
+                        <div class="loading">Loading bookings...</div>
+                    </div>
+
+                    <!-- Pagination -->
+                    <div id="pagination" class="pagination">
+                        <!-- Pagination will be generated dynamically -->
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Booking Details Modal -->
+    <div id="bookingModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Booking Details</h3>
+                <span class="close" onclick="bookingsManager.closeBookingModal()">&times;</span>
+            </div>
+            <div id="bookingDetails" class="booking-details">
+                <!-- Booking details will be populated here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Cancel Booking Modal -->
+    <div id="cancelModal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3>Cancel Booking</h3>
+                <span class="close" onclick="bookingsManager.closeCancelModal()">&times;</span>
+            </div>
+            <form id="cancelForm">
+                <input type="hidden" id="cancelBookingId">
+                
+                <div class="cancel-info">
+                    <h4>Booking Information</h4>
+                    <div id="cancelBookingInfo" class="booking-info">
+                        <!-- Booking info will be populated here -->
+                    </div>
+                </div>
+
+                <div class="cancel-reason">
+                    <h4>Cancellation Reason</h4>
+                    <div class="form-group">
+                        <label for="cancelReason">Please provide a reason for cancellation</label>
+                        <textarea id="cancelReason" name="reason" rows="4" required></textarea>
+                    </div>
+                </div>
+
+                <div class="modal-actions">
+                    <button type="submit" class="btn btn-danger">Cancel Booking</button>
+                    <button type="button" onclick="bookingsManager.closeCancelModal()" class="btn btn-secondary">Back</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Message Container -->
+    <div id="message" class="message" style="display: none;"></div>
+
+    <script src="js/bookings.js"></script>
+</body>
+</html>

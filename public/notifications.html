@@ -1,0 +1,20 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifications - Redirecting...</title>
+</head>
+<body>
+    <script>
+        const user = JSON.parse(localStorage.getItem('user') || '{}');
+        if (user.role === 'tutor') {
+            window.location.href = '/tutor-bookings.html';
+        } else if (user.role === 'sales') {
+            window.location.href = '/book-tutor.html';
+        } else {
+            window.location.href = '/index.html';
+        }
+    </script>
+</body>
+</html>

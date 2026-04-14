@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Dashboard - Scheduler</title>
+    <link rel="stylesheet" href="/css/navbar.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/css/dashboard.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+        }
+
+        .dashboard-wrapper {
+            min-height: 100vh;
+            background-color: #f5f7fa;
+        }
+
+        .dashboard-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 30px 20px;
+        }
+
+        .dashboard-header {
+            margin-bottom: 30px;
+        }
+
+        .dashboard-header h1 {
+            margin: 0 0 10px 0;
+            color: #333;
+            font-size: 28px;
+        }
+
+        .dashboard-header p {
+            color: #666;
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .stats-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+        }
+
+        .stat-card .number {
+            font-size: 32px;
+            font-weight: bold;
+            color: #764ba2;
+            margin-bottom: 5px;
+        }
+
+        .stat-card .label {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+
+        .section-card {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .section-card h3 {
+            margin: 0 0 15px 0;
+            color: #333;
+            font-size: 18px;
+            border-bottom: 2px solid #764ba2;
+            padding-bottom: 10px;
+        }
+
+        .tutor-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .tutor-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .tutor-item:hover {
+            background-color: #f9f9f9;
+        }
+
+        .tutor-item:last-child {
+            border-bottom: none;
+        }
+
+        .tutor-name {
+            font-weight: 600;
+            color: #333;
+        }
+
+        .tutor-info {
+            color: #666;
+            font-size: 12px;
+            margin-top: 4px;
+        }
+
+        .tutor-slots {
+            background-color: #f3e5f5;
+            color: #764ba2;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .booking-list {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .booking-item {
+            padding: 12px;
+            border-bottom: 1px solid #eee;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 14px;
+        }
+
+        .booking-item:last-child {
+            border-bottom: none;
+        }
+
+        .booking-time {
+            font-weight: 600;
+            color: #764ba2;
+        }
+
+        .booking-client {
+            color: #333;
+            flex: 1;
+            margin-left: 15px;
+        }
+
+        .booking-status {
+            background-color: #e3f2fd;
+            color: #1976d2;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .booking-status.pending {
+            background-color: #fff3e0;
+            color: #f57c00;
+        }
+
+        .action-button {
+            background-color: #764ba2;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: all 0.3s ease;
+            margin-top: 15px;
+            width: 100%;
+        }
+
+        .action-button:hover {
+            background-color: #667eea;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(118, 75, 162, 0.4);
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px 20px;
+            color: #999;
+        }
+
+        .empty-state p {
+            margin: 0;
+            font-size: 14px;
+        }
+
+        .loading {
+            text-align: center;
+            padding: 20px;
+            color: #764ba2;
+        }
+    </style>
+</head>
+<body>
+    <div id="navbar-container"></div>
+
+    <div class="dashboard-wrapper">
+        <div class="dashboard-content">
+            <div class="dashboard-header">
+                <h1>💼 Sales Dashboard</h1>
+                <p>Book tutors and manage your sessions</p>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="number" id="tutorCount">0</div>
+                    <div class="label">Available Tutors</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number" id="slotsCount">0</div>
+                    <div class="label">Available Slots</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number" id="bookingCount">0</div>
+                    <div class="label">My Bookings</div>
+                </div>
+                <div class="stat-card">
+                    <div class="number" id="confirmed">0</div>
+                    <div class="label">Confirmed</div>
+                </div>
+            </div>
+
+            <div class="grid-2">
+                <div class="section-card">
+                    <h3>👨‍🏫 Top Tutors</h3>
+                    <div id="tutorsList" class="loading">Loading...</div>
+                    <button class="action-button" onclick="window.location.href='/book-tutor.html'">
+                        Browse All Tutors
+                    </button>
+                </div>
+
+                <div class="section-card">
+                    <h3>📅 My Recent Bookings</h3>
+                    <div id="bookingsList" class="loading">Loading...</div>
+                    <button class="action-button" onclick="window.location.href='/sales-bookings.html'">
+                        View All Bookings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="/js/navbar-manager.js"></script>
+    <script>
+        class SalesDashboard {
+            async init() {
+                // Initialize navbar
+                await navbarManager.init();
+                
+                // Check access
+                if (!navbarManager.requireRole('sales')) return;
+
+                // Load dashboard data
+                await this.loadTutors();
+                await this.loadBookings();
+                await this.loadStats();
+            }
+
+            async loadStats() {
+                try {
+                    const token = localStorage.getItem('accessToken');
+                    
+                    // Get tutors count
+                    const tutorResponse = await fetch('/api/data/sales/available-tutors', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const tutorResult = await tutorResponse.json();
+                    
+                    if (tutorResult.success) {
+                        document.getElementById('tutorCount').textContent = tutorResult.count;
+                        
+                        // Calculate total slots
+                        const totalSlots = tutorResult.data.reduce((sum, t) => sum + t.availableSlots, 0);
+                        document.getElementById('slotsCount').textContent = totalSlots;
+                    }
+
+                    // Get bookings stats
+                    const bookResponse = await fetch('/api/data/sales/my-bookings', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const bookResult = await bookResponse.json();
+                    if (bookResult.success) {
+                        document.getElementById('bookingCount').textContent = bookResult.data.totalBookings;
+                        document.getElementById('confirmed').textContent = bookResult.data.confirmedBookings;
+                    }
+                } catch (error) {
+                    console.error('Error loading stats:', error);
+                }
+            }
+
+            async loadTutors() {
+                try {
+                    const token = localStorage.getItem('accessToken');
+                    const response = await fetch('/api/data/sales/available-tutors', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const result = await response.json();
+                    
+                    if (result.success && result.data.length > 0) {
+                        const tutors = result.data.slice(0, 5);
+                        const html = tutors.map(tutor => `
+                            <div class="tutor-item" onclick="window.location.href='/tutor-detail.html?id=${tutor._id}'">
+                                <div>
+                                    <div class="tutor-name">${tutor.name}</div>
+                                    <div class="tutor-info">${tutor.specialization || 'General'} • Rating: ${tutor.rating || 'N/A'}</div>
+                                </div>
+                                <span class="tutor-slots">${tutor.availableSlots} slots</span>
+                            </div>
+                        `).join('');
+                        document.getElementById('tutorsList').innerHTML = html;
+                    } else {
+                        document.getElementById('tutorsList').innerHTML = '<div class="empty-state"><p>No tutors available</p></div>';
+                    }
+                } catch (error) {
+                    console.error('Error loading tutors:', error);
+                    document.getElementById('tutorsList').innerHTML = '<div class="empty-state"><p>Error loading tutors</p></div>';
+                }
+            }
+
+            async loadBookings() {
+                try {
+                    const token = localStorage.getItem('accessToken');
+                    const response = await fetch('/api/data/sales/my-bookings', {
+                        headers: { 'Authorization': `Bearer ${token}` }
+                    });
+                    const result = await response.json();
+                    
+                    if (result.success && result.data.bookings.length > 0) {
+                        const bookings = result.data.bookings.slice(0, 5);
+                        const html = bookings.map(booking => `
+                            <div class="booking-item">
+                                <div>
+                                    <div class="booking-client">${booking.tutorName}</div>
+                                    <small style="color: #999;">${this.formatDate(booking.scheduledAt)}</small>
+                                </div>
+                                <span class="booking-status ${booking.status}">${booking.status}</span>
+                            </div>
+                        `).join('');
+                        document.getElementById('bookingsList').innerHTML = html;
+                    } else {
+                        document.getElementById('bookingsList').innerHTML = '<div class="empty-state"><p>No bookings yet</p></div>';
+                    }
+                } catch (error) {
+                    console.error('Error loading bookings:', error);
+                }
+            }
+
+            formatDate(date) {
+                return new Date(date).toLocaleDateString('en-US', { 
+                    month: 'short', 
+                    day: 'numeric', 
+                    hour: '2-digit', 
+                    minute: '2-digit' 
+                });
+            }
+        }
+
+        const dashboard = new SalesDashboard();
+        document.addEventListener('DOMContentLoaded', () => dashboard.init());
+    </script>
+</body>
+</html>

@@ -1,0 +1,412 @@
+/* Notifications Page Specific Styles */
+
+/* Notification Items */
+.notification-item {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 8px;
+    margin-bottom: 15px;
+    border-left: 4px solid #667eea;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    align-items: flex-start;
+    gap: 15px;
+}
+
+.notification-item:hover {
+    background: #e9ecef;
+    transform: translateX(5px);
+}
+
+.notification-item.unread {
+    background: #e8f5e8;
+    border-left-color: #28a745;
+}
+
+.notification-item.unread::before {
+    content: "";
+    position: absolute;
+    top: 20px;
+    left: -8px;
+    width: 8px;
+    height: 8px;
+    background: #28a745;
+    border-radius: 50%;
+}
+
+.notification-item.urgent {
+    border-left-color: #dc3545;
+    background: #f8d7da;
+}
+
+.notification-item.high {
+    border-left-color: #ffc107;
+    background: #fff3cd;
+}
+
+.notification-item.medium {
+    border-left-color: #17a2b8;
+    background: #d1ecf1;
+}
+
+.notification-item.low {
+    border-left-color: #6c757d;
+    background: #e9ecef;
+}
+
+.notification-checkbox {
+    margin-top: 2px;
+}
+
+.notification-content {
+    flex: 1;
+}
+
+.notification-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 8px;
+}
+
+.notification-title {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+    font-size: 1.1rem;
+}
+
+.notification-meta {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.notification-time {
+    font-weight: 500;
+}
+
+.notification-type {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    background: #667eea;
+    color: white;
+}
+
+.notification-priority {
+    display: inline-block;
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.priority-urgent {
+    background: #dc3545;
+    color: white;
+}
+
+.priority-high {
+    background: #ffc107;
+    color: #333;
+}
+
+.priority-medium {
+    background: #17a2b8;
+    color: white;
+}
+
+.priority-low {
+    background: #6c757d;
+    color: white;
+}
+
+.notification-message {
+    color: #666;
+    margin-bottom: 10px;
+    line-height: 1.5;
+}
+
+.notification-actions {
+    display: flex;
+    gap: 8px;
+    margin-top: 10px;
+}
+
+.notification-action-btn {
+    padding: 4px 8px;
+    border: 1px solid #667eea;
+    background: white;
+    color: #667eea;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.notification-action-btn:hover {
+    background: #667eea;
+    color: white;
+}
+
+/* Actions Section */
+.action-buttons {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+/* Notifications Header */
+.notifications-header {
+    display: flex;
+    justify-content: between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.notifications-header h2 {
+    margin: 0;
+    color: #333;
+}
+
+.selection-controls {
+    display: flex;
+    align-items: center;
+}
+
+/* Checkbox Styles */
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+}
+
+/* Notification Types Color Coding */
+.type-booking_created { background: #667eea; }
+.type-booking_accepted { background: #28a745; }
+.type-booking_rejected { background: #dc3545; }
+.type-booking_cancelled { background: #6c757d; }
+.type-booking_rescheduled { background: #ffc107; }
+.type-reschedule_requested { background: #17a2b8; }
+.type-reschedule_approved { background: #28a745; }
+.type-reschedule_rejected { background: #dc3545; }
+.type-availability_added { background: #28a745; }
+.type-availability_updated { background: #ffc107; }
+.type-availability_deleted { background: #dc3545; }
+.type-system_update { background: #667eea; }
+.type-reminder { background: #ffc107; }
+.type-info { background: #17a2b8; }
+.type-warning { background: #ffc107; }
+.type-error { background: #dc3545; }
+
+/* Empty State */
+.empty-state {
+    text-align: center;
+    padding: 60px 40px;
+    color: #666;
+}
+
+.empty-state h3 {
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.5rem;
+}
+
+.empty-state p {
+    margin-bottom: 20px;
+    font-size: 1.1rem;
+}
+
+.empty-state .btn {
+    margin: 0 5px;
+}
+
+/* Notification Icon */
+.notification-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    color: white;
+    flex-shrink: 0;
+}
+
+.icon-booking_created { background: #667eea; }
+.icon-booking_accepted { background: #28a745; }
+.icon-booking_rejected { background: #dc3545; }
+.icon-booking_cancelled { background: #6c757d; }
+.icon-booking_rescheduled { background: #ffc107; color: #333; }
+.icon-reschedule_requested { background: #17a2b8; }
+.icon-reschedule_approved { background: #28a745; }
+.icon-reschedule_rejected { background: #dc3545; }
+.icon-availability_added { background: #28a745; }
+.icon-availability_updated { background: #ffc107; color: #333; }
+.icon-availability_deleted { background: #dc3545; }
+.icon-system_update { background: #667eea; }
+.icon-reminder { background: #ffc107; color: #333; }
+.icon-info { background: #17a2b8; }
+.icon-warning { background: #ffc107; color: #333; }
+.icon-error { background: #dc3545; }
+.icon-bell { background: #667eea; }
+
+/* Loading State */
+.loading {
+    text-align: center;
+    padding: 40px;
+    color: #666;
+    font-style: italic;
+}
+
+/* Notification Stats */
+.notification-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 15px;
+    margin-top: 20px;
+}
+
+.stat-item {
+    background: #f8f9fa;
+    padding: 15px;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.stat-value {
+    font-size: 1.5rem;
+    font-weight: bold;
+    color: #667eea;
+    margin-bottom: 5px;
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .notification-item {
+        flex-direction: column;
+        gap: 10px;
+    }
+    
+    .notification-checkbox {
+        align-self: flex-start;
+    }
+    
+    .notification-header {
+        flex-direction: column;
+        gap: 8px;
+    }
+    
+    .notification-meta {
+        flex-wrap: wrap;
+    }
+    
+    .action-buttons {
+        flex-direction: column;
+    }
+    
+    .notifications-header {
+        flex-direction: column;
+        gap: 15px;
+        align-items: flex-start;
+    }
+    
+    .notification-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .notification-stats {
+        grid-template-columns: 1fr;
+    }
+    
+    .summary-cards {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .filter-controls .form-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Animation for new notifications */
+@keyframes slideInRight {
+    from {
+        opacity: 0;
+        transform: translateX(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.notification-item.new {
+    animation: slideInRight 0.5s ease-out;
+}
+
+/* Selection State */
+.notification-item.selected {
+    background: #e3f2fd;
+    border-left-color: #2196f3;
+}
+
+/* Bulk Actions Bar */
+.bulk-actions-bar {
+    background: #2196f3;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 8px;
+    margin-bottom: 20px;
+    display: none;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.bulk-actions-bar.show {
+    display: flex;
+}
+
+.bulk-actions-text {
+    font-weight: 500;
+}
+
+.bulk-actions-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.bulk-actions-buttons .btn {
+    background: rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: white;
+    padding: 6px 12px;
+    font-size: 0.9rem;
+}
+
+.bulk-actions-buttons .btn:hover {
+    background: rgba(255, 255, 255, 0.3);
+}
